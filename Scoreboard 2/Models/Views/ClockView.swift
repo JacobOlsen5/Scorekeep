@@ -101,20 +101,6 @@ struct SoccerClockView: View {
                         
                         
                     }
-                    //                    VStack {
-                    //                        //                Text(":").font(.system(size: 150))
-                    //                        //                    .frame(width: 20, height: 50, alignment: .bottomTrailing)
-                    //                        //                Text("\(soccerStats.seconds, specifier: "%02d")").font(.system(size: 150))
-                    //                        //                    .frame(width: 230, height: 150, alignment: .trailing)
-                    //                        //                    .foregroundColor(.red)
-                    //                        VStack {
-                    
-                    
-                    
-                    //
-                    
-                    //                        }
-                    //                    }
                 } 
             }
             
@@ -390,7 +376,7 @@ struct SoccerClockView: View {
 
 
 
-struct SoccerClockVie_Previews: PreviewProvider {
+struct SoccerClockView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)
         ScoreView(sportSelect: .constant(.soccer), teamSelect: .guest)

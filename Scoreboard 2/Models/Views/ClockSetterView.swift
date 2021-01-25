@@ -24,20 +24,19 @@ struct ClockSetterView: View {
             }.sheet (isPresented: $showingDetail){
                 ScoreboardView(soccerStats: soccerStats, sportSelection: $sportSelection, teamSelection: $teamSelection)
             }
-            Text("Set The Clock")
-            
             HStack {
                 ForEach(0 ..< availableSecondsMinutes.count) {
                     Text("\(self.availableSecondsMinutes[$0]) min")
                 }
             }
             HStack {
-                Picker(selection: $clockMinutes, label: Text("")) {
+                Picker(selection: $clockMinutes, label: Text("Minutes")) {
                     ForEach(0 ..< availableSecondsMinutes.count) {
                         Text("\(self.availableSecondsMinutes[$0])")
                     }
+                    Text(":")
                 }
-                Picker(selection: $clockSeconds, label: Text("")) {
+                Picker(selection: $clockSeconds, label: Text("Seconds")) {
                     ForEach(0 ..< availableSecondsMinutes.count) {
                         Text("\(self.availableSecondsMinutes[$0])")
                     }
