@@ -12,14 +12,15 @@ struct ClockSetterView: View {
     @State var teamSelection: Team
     @Binding var clockMinutes: Int
     @Binding var sportSelection: Sport
-    @State var clockSeconds: Int
+    @Binding var clockSeconds: Int
     @State var showingDetail = false
+    @Environment(\.presentationMode) var presentationMode
     var availableSecondsMinutes = Array(0...59)
     
     var body: some View {
         VStack {
             Button("Set The Clock") {
-                self.showingDetail.toggle()
+                self.presentationMode.wrappedValue.dismiss()
                 
             }.sheet (isPresented: $showingDetail){
                 ScoreboardView(soccerStats: soccerStats, sportSelection: $sportSelection, teamSelection: $teamSelection)
@@ -58,6 +59,6 @@ struct ClockSetterView_Previews: PreviewProvider {
     static var previews: some View {
         
         
-        ClockSetterView(soccerStats: Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0), teamSelection: .home, clockMinutes: .constant(0), sportSelection: $sportSelection, clockSeconds: 0)
+        ClockSetterView(soccerStats: Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0), teamSelection: .home, clockMinutes: .constant(0), sportSelection: $sportSelection, clockSeconds: .constant(0))
     }
 }

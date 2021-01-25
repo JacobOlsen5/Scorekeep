@@ -25,8 +25,8 @@ struct SoccerClockView: View {
     @State var showingDetail = false
     @State var sportSelection: Sport
     @State var teamSelection: Team
-    @State var clockSeconds: Int = 0
-    @State var clockMinutes: Int = 0
+    @State var clockSeconds: Int
+    @State var clockMinutes: Int
     
     
     //    @State var footballStats: Football
@@ -36,32 +36,36 @@ struct SoccerClockView: View {
     fileprivate func beginTimer() {
         if sportPicker == .soccer {
             timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-                soccerStats.seconds += 1
-                if soccerStats.seconds == 60 {
-                    soccerStats.minutes += 1
-                    soccerStats.seconds = 0
+                clockSeconds += 1
+                if clockSeconds == 60 {
+                    clockMinutes += 1
+                    clockSeconds = 0
                 }
             }
         } else if sportPicker == .football {
             
             timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-                soccerStats.seconds -= 1
-                if soccerStats.seconds == 0 {
-                    soccerStats.minutes -= 1
-                    soccerStats.seconds = 60
+                clockSeconds -= 1
+                if clockSeconds == -1 {
+                    clockMinutes -= 1
+                    clockSeconds = 59
+                } else if clockMinutes == 0 && clockSeconds == 0 {
+                    timer.invalidate()
                 }
+                
             }
         } else if sportPicker == .basketball {
             
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {_ in
                 
-                soccerStats.seconds -= Int(0.1)
-                if soccerStats.seconds == 0 {
-                    soccerStats.minutes -= 1
-                    soccerStats.seconds = 0
+                clockSeconds -= 1
+                if clockSeconds == -1 {
+                    clockMinutes -= 1
+                    clockSeconds = 59
+                } else if clockMinutes == 0 && clockSeconds == 0 {
+                    timer?.invalidate()
                 }
-                
             }
         }
     }
@@ -72,7 +76,7 @@ struct SoccerClockView: View {
             VStack {
                 
                 if  sportPicker == .soccer || sportPicker == .football || sportPicker == .basketball {
-                    Text("\(soccerStats.minutes, specifier: "%02d"):\(soccerStats.seconds, specifier: "%02d")").font(Font.custom("Open24DisplaySt", size: 40))
+                    Text("\(clockMinutes, specifier: "%02d"):\(clockSeconds, specifier: "%02d")").font(Font.custom("Open24DisplaySt", size: 40))
                         .frame(width: 100, height: 110, alignment: .trailing)
                         .foregroundColor(.red)
                         .frame(maxWidth: .infinity)
@@ -82,8 +86,8 @@ struct SoccerClockView: View {
                         self.showingDetail.toggle()
                         
                     }.sheet (isPresented: $showingDetail){
-                        ClockSetterView(soccerStats: soccerStats, teamSelection: teamSelection, clockMinutes: $clockMinutes, sportSelection: $sportSelection, clockSeconds: clockSeconds)
-                    
+                        ClockSetterView(soccerStats: soccerStats, teamSelection: teamSelection, clockMinutes: $clockMinutes, sportSelection: $sportSelection, clockSeconds: $clockSeconds)
+                        
                     }
                     
                     Button("Start The Clock") {
@@ -260,7 +264,7 @@ struct SoccerClockView: View {
                                         ball = 0
                                         strike = 0
                                     }
-
+                                    
                                 }
                                 
                                 Button("Reset Balls") {
@@ -308,8 +312,8 @@ struct SoccerClockView: View {
                                     strike = 0
                                     out = 0
                                 }
-                                    
-                                                            }
+                                
+                            }
                             Button("Reset Outs") {
                                 out = 0
                             }
@@ -326,46 +330,46 @@ struct SoccerClockView: View {
                             basketballPosession  = 1
                         }
                     }
-                        if basketballPosession == 1 {
-                            HStack {
-                                Image(systemName: "circle.fill").foregroundColor(.red)
-                                Text("Possesion")
-                                Image(systemName: "circle.fill").foregroundColor(.black)
+                    if basketballPosession == 1 {
+                        HStack {
+                            Image(systemName: "circle.fill").foregroundColor(.red)
+                            Text("Possesion")
+                            Image(systemName: "circle.fill").foregroundColor(.black)
                         }
                     } else if basketballPosession == 2 {
                         HStack {
                             Image(systemName: "circle.fill").foregroundColor(.black)
                             Text("Possesion")
                             Image(systemName: "circle.fill").foregroundColor(.red)
-                    }
-                } else {
-                    HStack {
-                    Image(systemName: "circle.fill").foregroundColor(.black)
-                    Text("Possesion")
-                    Image(systemName: "circle.fill").foregroundColor(.black)
+                        }
+                    } else {
+                        HStack {
+                            Image(systemName: "circle.fill").foregroundColor(.black)
+                            Text("Possesion")
+                            Image(systemName: "circle.fill").foregroundColor(.black)
                         }
                     }
                 }
                 
-                    HStack {
-                        Text("Period:")
-                        Text("\(periodNumber)")
-                        .foregroundColor(.orange)
+                HStack {
+                    Text("Period:")
+                    Text("\(periodNumber)")
+                        .foregroundColor(.green)
                         .font(Font.custom("Open24DisplaySt", size: 20))
-                    }
+                }
                 
                 HStack {
                     Button("Period +1") {
-                    periodNumber += 1
-                }
+                        periodNumber += 1
+                    }
                     Button("Period -1") {
-                    periodNumber -= 1
+                        periodNumber -= 1
                     }
                 }
-                    Button("Reset Period") {
-                        periodNumber = 1
-                    }
+                Button("Reset Period") {
+                    periodNumber = 1
                 }
+            }
         }
     }
 }

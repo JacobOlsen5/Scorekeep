@@ -54,7 +54,9 @@ struct ScoreView: View {
                     Button("+1") {
                         shots += 1
                     }
-
+                    Button("-1") {
+                        shots -= 1
+                    }
                 }
                 HStack {
                     Text("Shots On Goal: ")
@@ -63,12 +65,13 @@ struct ScoreView: View {
                         .font(Font.custom("Open24DisplaySt", size: 20))
                     Button(" +1") {
                         shotsOnGoal += 1
+                    }
+                    Button("-1") {
+                        shotsOnGoal -= 1
+                    }
                 }
-                       
-
-                }
-                    
-                    Button("Reset") {
+                
+                Button("Reset") {
                         shots = 0
                         shotsOnGoal = 0
                     }

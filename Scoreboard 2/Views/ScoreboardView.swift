@@ -45,7 +45,7 @@ struct ScoreboardView: View {
                     ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
                 }
                 Spacer()
-                SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection)
+                SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection, clockSeconds: 0, clockMinutes: 0)
                 Spacer()
                 VStack {
                     TextField("Team Name", text: $guestTeamName)
