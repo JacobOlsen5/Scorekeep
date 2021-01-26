@@ -22,140 +22,156 @@ struct ScoreView: View {
     @State var ballOn: String = ""
     @State var shots: Int = 0
     @State var shotsOnGoal: Int = 0
+    @State var teamName: String = ""
+    @State var guestTeamName: String = ""
     
     var body: some View {
-        VStack {
-            
-            Spacer().frame(width: 90, height: 13, alignment: .topTrailing)
-            
-            Text("\(score)")
-                .frame(width: 200, height: 120, alignment: .center)
-                .foregroundColor(.orange)
-                .font(Font.custom("Open24DisplaySt", size: 120))
-            
-            if sportSelect == .soccer {
-                Button("+1") {
-                    score += 1
-                    print("\(score)")
-                }
-                
-                Button("-1") {
-                    score -= 1
-                    print(" \(score)")
-                }
-                Button("Reset") {
-                    score = 0
-                }
-                HStack {
-                    Text("Shots: ")
-                    Text("\(shots)")
+        ZStack {
+            Color.black
+            VStack {
+                if teamSelect == .home {
+                    TextField("Team Name", text: $teamName)
                         .foregroundColor(.orange)
-                        .font(Font.custom("Open24DisplaySt", size: 20))
+                        .font(.custom("scoreboard", size: 20))
+                } else if teamSelect == .guest {
+                    TextField("Team Name", text: $guestTeamName)
+                        .foregroundColor(.orange)
+                        .font(.custom("scoreboard", size: 20))
+                }
+                Spacer().frame(width: 90, height: 13, alignment: .topTrailing)
+                
+                Text("\(score)")
+                    .frame(width: 200, height: 120, alignment: .center)
+                    .foregroundColor(.orange)
+                    .font(Font.custom("Open24DisplaySt", size: 120))
+                
+                if sportSelect == .soccer {
                     Button("+1") {
-                        shots += 1
+                        score += 1
+                        print("\(score)")
                     }
+                    
                     Button("-1") {
-                        shots -= 1
+                        score -= 1
+                        print(" \(score)")
                     }
-                }
-                HStack {
-                    Text("Shots On Goal: ")
-                    Text("\(shotsOnGoal)")
-                        .foregroundColor(.orange)
-                        .font(Font.custom("Open24DisplaySt", size: 20))
-                    Button(" +1") {
-                        shotsOnGoal += 1
+                    Button("Reset") {
+                        score = 0
                     }
-                    Button("-1") {
-                        shotsOnGoal -= 1
+                    HStack {
+                        Text("Shots: ")
+                            .foregroundColor(.white)
+                        Text("\(shots)")
+                            .foregroundColor(.orange)
+                            .font(Font.custom("Open24DisplaySt", size: 20))
+                        Button("+1") {
+                            shots += 1
+                        }
+                        Button("-1") {
+                            shots -= 1
+                        }
                     }
-                }
-                
-                Button("Reset") {
+                    HStack {
+                        Text("Shots On Goal: ")
+                            .foregroundColor(.white)
+                        Text("\(shotsOnGoal)")
+                            .foregroundColor(.orange)
+                            .font(Font.custom("Open24DisplaySt", size: 20))
+                        Button(" +1") {
+                            shotsOnGoal += 1
+                        }
+                        Button("-1") {
+                            shotsOnGoal -= 1
+                        }
+                    }
+                    
+                    Button("Reset") {
                         shots = 0
                         shotsOnGoal = 0
                     }
                 } else if sportSelect == .baseball {
-                Button("+1") {
-                    score += 1
-                    print("\(score)")
-                }
-                
-                Button("-1") {
-                    score -= 1
-                    print(" \(score)")
-                }
-                Button("Reset") {
-                    score = 0
-                }
-            } else if sportSelect == .football {
-                
-                Button("+1") {
-                    score += 1
-                    print("\(score)")
-                }
-                Button("+3") {
-                    score += 3
-                    print("\(score)")
-                }
-                Button("+6") {
-                    score += 6
-                    print("\(score)")
-                }
-                Button("-1") {
-                    score -= 1
-                    print("\(score)")
-                }
-                Button("Reset") {
-                    score = 0
-                }
-                HStack {
-                    Text("TOL: ")
-                    Text("\( footballTimeouts)")
-                        .foregroundColor(.orange)
-                        .font(Font.custom("Open24DisplaySt", size: 20))
-                    Button("TOL -1") {
-                        footballTimeouts -= 1
+                    Button("+1") {
+                        score += 1
+                        print("\(score)")
                     }
-                    Button("TOL Reset") {
-                        footballTimeouts = 3
+                    
+                    Button("-1") {
+                        score -= 1
+                        print(" \(score)")
                     }
-                }
-                
-            } else {
-                // Basketball
-                Button("+1") {
-                    score += 1
-                }
-                Button("+2") {
-                    score += 2
-                }
-                Button("+3") {
-                    score += 3
-                }
-                Button("-1") {
-                    score -= 1
-                    print("\(score)")
-                }
-                Button("Reset") {
-                    score = 0
-                }
-                HStack {
-                    Text("TOL: ")
-                    Text("\(basketballTimeouts)")
-                        .foregroundColor(.orange)
-                        .font(Font.custom("Open24DisplaySt", size: 20))
-                    Button("TOL -1") {
-                        basketballTimeouts -= 1
+                    Button("Reset") {
+                        score = 0
                     }
-                    Button("TOL Reset") {
-                        basketballTimeouts = 5
+                } else if sportSelect == .football {
+                    
+                    Button("+1") {
+                        score += 1
+                        print("\(score)")
+                    }
+                    Button("+3") {
+                        score += 3
+                        print("\(score)")
+                    }
+                    Button("+6") {
+                        score += 6
+                        print("\(score)")
+                    }
+                    Button("-1") {
+                        score -= 1
+                        print("\(score)")
+                    }
+                    Button("Reset") {
+                        score = 0
+                    }
+                    HStack {
+                        Text("TOL: ")
+                            .foregroundColor(.white)
+                        Text("\( footballTimeouts)")
+                            .foregroundColor(.orange)
+                            .font(Font.custom("Open24DisplaySt", size: 20))
+                        Button("TOL -1") {
+                            footballTimeouts -= 1
+                        }
+                        Button("TOL Reset") {
+                            footballTimeouts = 3
+                        }
+                    }
+                    
+                } else {
+                    // Basketball
+                    Button("+1") {
+                        score += 1
+                    }
+                    Button("+2") {
+                        score += 2
+                    }
+                    Button("+3") {
+                        score += 3
+                    }
+                    Button("-1") {
+                        score -= 1
+                        print("\(score)")
+                    }
+                    Button("Reset") {
+                        score = 0
+                    }
+                    HStack {
+                        Text("TOL: ")
+                            .foregroundColor(.white)
+                        Text("\(basketballTimeouts)")
+                            .foregroundColor(.orange)
+                            .font(Font.custom("Open24DisplaySt", size: 20))
+                        Button("TOL -1") {
+                            basketballTimeouts -= 1
+                        }
+                        Button("TOL Reset") {
+                            basketballTimeouts = 5
+                        }
                     }
                 }
             }
         }
     }
-    
 }
 
 

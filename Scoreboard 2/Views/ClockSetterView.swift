@@ -15,11 +15,15 @@ struct ClockSetterView: View {
     @Binding var clockSeconds: Int
     @State var showingDetail = false
     @Environment(\.presentationMode) var presentationMode
+    @Binding var resetMinutes: Int
+    @Binding var resetSeconds: Int
     var availableSecondsMinutes = Array(0...59)
     
     var body: some View {
         VStack {
             Button("Set The Clock") {
+                resetMinutes = clockMinutes
+                resetSeconds = clockSeconds
                 self.presentationMode.wrappedValue.dismiss()
                 
             }.sheet (isPresented: $showingDetail){
@@ -33,21 +37,19 @@ struct ClockSetterView: View {
             HStack {
                 Picker(selection: $clockMinutes, label: Text("Minutes")) {
                     ForEach(0 ..< availableSecondsMinutes.count) {
-                        Text("\(self.availableSecondsMinutes[$0])")
+                        Text("\(self.availableSecondsMinutes[$0]) min")
                     }
-                    Text(":")
                 }
+                Text(":")
                 Picker(selection: $clockSeconds, label: Text("Seconds")) {
                     ForEach(0 ..< availableSecondsMinutes.count) {
-                        Text("\(self.availableSecondsMinutes[$0])")
+                        Text("\(self.availableSecondsMinutes[$0]) sec")
                     }
                 }
             }
             .frame(maxWidth: .infinity)
         }
     }
-    
-    
 }
 struct ClockSetterView_Previews: PreviewProvider {
     @State static var sportSelection: Sport = .soccer
@@ -59,6 +61,7 @@ struct ClockSetterView_Previews: PreviewProvider {
     static var previews: some View {
         
         
-        ClockSetterView(soccerStats: Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0), teamSelection: .home, clockMinutes: .constant(0), sportSelection: $sportSelection, clockSeconds: .constant(0))
+        ClockSetterView(soccerStats: Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0), teamSelection: .home, clockMinutes: .constant(0), sportSelection: $sportSelection, clockSeconds: .constant(0), resetMinutes: .constant(0), resetSeconds: .constant(0)
+        )
     }
 }

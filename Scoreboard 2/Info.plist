@@ -17,6 +17,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Open 24 Display St.ttf</string>
+		<string>scoreboard.ttf</string>
 	</array>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>

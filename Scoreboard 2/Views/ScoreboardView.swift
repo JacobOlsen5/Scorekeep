@@ -16,9 +16,7 @@ struct ScoreboardView: View {
     @State var guestTeamName: String = ""
     
     func setUpScoreboard() {
-        setSportName()
-        setSportView()
-    }
+        setSportName()    }
     func setSportName () {
         switch sportSelection {
         case .soccer:
@@ -29,37 +27,33 @@ struct ScoreboardView: View {
             sportName = "Baseball"
         case .basketball:
             sportName = "Basketball"
-//        default:
-//            sportName = "Unknown"
+        //        default:
+        //            sportName = "Unknown"
         }
-    }
-    func setSportView() {
-        
     }
     var body: some View {
-        
         NavigationView {
-            HStack {
-                VStack {
-                    TextField("Team Name", text: $teamName)
-                    ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
-                }
-                Spacer()
-                SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection, clockSeconds: 0, clockMinutes: 0)
-                Spacer()
-                VStack {
-                    TextField("Team Name", text: $guestTeamName)
-                    
-                    ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
-                }
+            ZStack {
+                Color.purple
+                    .ignoresSafeArea()
                 
-            } .onAppear(perform: setUpScoreboard)
-            .navigationBarTitle(Text("\(sportName)"))
-            
+                HStack {
+                    VStack {
+                        ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
+                    }
+                    Spacer()
+                    SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection, clockSeconds: 0, clockMinutes: 0)
+                    Spacer()
+                    VStack {
+                        ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
+                    }
+                    
+                } .onAppear(perform: setUpScoreboard)
+                .navigationBarTitle(Text("\(sportName)"))
+                
+            }
         }
-        
     }
-    
 }
 
 struct SoccerScoreboardView_Previews: PreviewProvider {
