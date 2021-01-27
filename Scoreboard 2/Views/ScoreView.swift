@@ -26,6 +26,7 @@ struct ScoreView: View {
     @State var guestTeamName: String = ""
     @State var hits: Int = 0
     @State var errors: Int = 0
+    @State var bonus: Int = 0
     
     var body: some View {
         ZStack {
@@ -94,15 +95,6 @@ struct ScoreView: View {
                         shotsOnGoal = 0
                     }
                 } else if sportSelect == .baseball {
-                    if teamSelect == .home {
-                        TextField("Team Name", text: $teamName)
-                            .foregroundColor(.orange)
-                            .font(.custom("scoreboard", size: 20))
-                    } else if teamSelect == .guest {
-                        TextField("Team Name", text: $guestTeamName)
-                            .foregroundColor(.orange)
-                            .font(.custom("scoreboard", size: 20))
-                    }
                     Button("+1") {
                         score += 1
                         print("\(score)")
@@ -132,20 +124,20 @@ struct ScoreView: View {
                     }
                     // Errors
                     HStack {
-                            Text("Errors")
-                                .foregroundColor(.yellow)
-                                .font(.custom("scoreboard", size: 20))
-                            Text("\(errors)")
-                                .foregroundColor(.yellow)
-                                .font(.custom("Open24DisplaySt", size: 20))
-                            Button("Errors +1") {
-                                errors += 1
-                            }
-                            Button("Errors -1") {
-                                errors -= 1
-                            }
-                           
+                        Text("Errors")
+                            .foregroundColor(.yellow)
+                            .font(.custom("scoreboard", size: 20))
+                        Text("\(errors)")
+                            .foregroundColor(.yellow)
+                            .font(.custom("Open24DisplaySt", size: 20))
+                        Button("Errors +1") {
+                            errors += 1
                         }
+                        Button("Errors -1") {
+                            errors -= 1
+                        }
+                        
+                    }
                     Button("Reset") {
                         hits = 0
                         errors = 0
@@ -226,12 +218,13 @@ struct ScoreView: View {
 
 
 
+
 // Make this view generic and reuse it for both home and guest.
 
 
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)
-        ScoreView(sportSelect: .constant(.baseball), teamSelect: .home)
+        ScoreView(sportSelect: .constant(.basketball), teamSelect: .home)
     }
 }

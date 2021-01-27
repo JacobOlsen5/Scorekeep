@@ -27,42 +27,45 @@ struct SoccerClockView: View {
     @State var teamSelection: Team
     @State var clockSeconds: Int
     @State var clockMinutes: Int
+    @State var clockTenths: Int
     @State var resetMinutes = 0
     @State var resetSeconds = 0
     @State var periodNumber: Int = 1
+    @State var atBat: String = ""
+    @State var toGo: String = ""
+    @State var ballOn: String = ""
+
+
     fileprivate func beginTimer() {
         if sportPicker == .soccer {
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-                clockSeconds += 1
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
+                clockTenths += 1
+                if clockTenths == 10{
+                    clockTenths = 0
+                    clockSeconds += 1
+                }
                 if clockSeconds == 60 {
                     clockMinutes += 1
                     clockSeconds = 0
                 }
             }
-        } else if sportPicker == .football {
+        } else if sportPicker == .football || sportPicker == .basketball {
             
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-                clockSeconds -= 1
-                if clockSeconds == -1 {
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
+                
+                if clockTenths == 0 && clockSeconds != 0{
+                    clockTenths = 9
+                    clockSeconds -= 1
+                }
+                if clockSeconds == 0 && clockMinutes != 0 {
                     clockMinutes -= 1
                     clockSeconds = 59
-                } else if clockMinutes == 0 && clockSeconds == 0 {
+                }
+                if clockMinutes == 0 && clockSeconds == 0 && clockTenths == 0 {
                     timer.invalidate()
+                    return
                 }
-                
-            }
-        } else if sportPicker == .basketball {
-            
-            
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {_ in
-                
-                clockSeconds -= 1
-                if clockSeconds == -1 {
-                    clockMinutes -= 1
-                    clockSeconds = 59
-                } else if clockMinutes == 0 && clockSeconds == 0 {
-                    timer?.invalidate()
-                }
+                clockTenths -= 1
             }
         }
     }
@@ -77,45 +80,48 @@ struct SoccerClockView: View {
                 VStack {
                     
                     if  sportPicker == .soccer || sportPicker == .football || sportPicker == .basketball {
-                        Text("\(clockMinutes, specifier: "%02d"):\(clockSeconds, specifier: "%02d")").font(Font.custom("Open24DisplaySt", size: 40))
-                            .frame(width: 100, height: 110, alignment: .trailing)
+                        Text("\(clockMinutes, specifier: "%02d"):\(clockSeconds, specifier: "%02d"). \(clockTenths)").font(Font.custom("Open24DisplaySt", size: 40))
+                            .frame(width: 118, height: 110, alignment: .trailing)
                             .foregroundColor(.red)
                             .frame(maxWidth: .infinity)
                         
-                        
-                        Button("Set The Clock") {
-                            self.showingDetail.toggle()
-                            timer?.invalidate()
+                        HStack {
+                            Button("Set") {
+                                self.showingDetail.toggle()
+                                timer?.invalidate()
+                                
+                                
+                            }.sheet (isPresented: $showingDetail){
+                                ClockSetterView(soccerStats: soccerStats, teamSelection: teamSelection, clockMinutes: $clockMinutes, sportSelection: $sportSelection, clockSeconds: $clockSeconds, resetMinutes: $resetMinutes, resetSeconds: $resetSeconds)
+                                
+                            }
                             
+                            Button("Start") {
+                                beginTimer()
+                            }
                             
-                        }.sheet (isPresented: $showingDetail){
-                            ClockSetterView(soccerStats: soccerStats, teamSelection: teamSelection, clockMinutes: $clockMinutes, sportSelection: $sportSelection, clockSeconds: $clockSeconds, resetMinutes: $resetMinutes, resetSeconds: $resetSeconds)
+                            Button("Stop") {
+                                timer?.invalidate()
+                                
+                            }
                             
-                        }
-                        
-                        Button("Start The Clock") {
-                            beginTimer()
-                        }
-                        
-                        Button("Stop The Clock") {
-                            timer?.invalidate()
-                            
-                        }
-                        
-                        Button("Reset The Clock") {
-                            
-                            timer?.invalidate()
-                            if sportSelection == .soccer {
-                                clockMinutes = 0
-                                clockSeconds = 0
-                            } else if sportSelection == .football || sportSelection == .basketball {
-                                clockMinutes = resetMinutes
-                                clockSeconds = resetSeconds
+                            Button("Reset") {
+                                
+                                timer?.invalidate()
+                                if sportSelection == .soccer {
+                                    clockMinutes = 0
+                                    clockSeconds = 0
+                                    clockTenths = 0
+                                } else if sportSelection == .football || sportSelection == .basketball {
+                                    clockMinutes = resetMinutes
+                                    clockSeconds = resetSeconds
+                                    clockTenths = 0
+                                    
+                                }
                             }
                         }
                     }
                 }
-                
                 
                 if  sportPicker == .soccer {
                     VStack {
@@ -210,7 +216,26 @@ struct SoccerClockView: View {
                             }
                         }
                     }
-                    
+                
+                    HStack {
+                        Text("To Go:")
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
+                        
+                        TextField("To Go", text: $toGo)
+                            .foregroundColor(.orange)
+                            .font(.custom("Open24DisplaySt", size: 20))
+                    }
+                    HStack {
+                        Text("Ball On:")
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
+                        
+                        TextField("Ball On", text: $ballOn)
+                            .foregroundColor(.orange)
+                            .font(.custom("Open24DisplaySt", size: 20))
+                            
+                    }
                 } else if sportPicker == .baseball {
                     
                     
@@ -234,25 +259,27 @@ struct SoccerClockView: View {
                         Button("Reset Inning") {
                             periodNumber = 1
                         }
-                        Button("1st Base") {
-                            if onBase == false {
-                                onBase = true
-                            } else {
-                                onBase = false
+                        HStack {
+                            Button("1st") {
+                                if onBase == false {
+                                    onBase = true
+                                } else {
+                                    onBase = false
+                                }
                             }
-                        }
-                        Button("2nd Base") {
-                            if onBase2 == false {
-                                onBase2 = true
-                            } else {
-                                onBase2 = false
+                            Button("2nd") {
+                                if onBase2 == false {
+                                    onBase2 = true
+                                } else {
+                                    onBase2 = false
+                                }
                             }
-                        }
-                        Button("3rd Base") {
-                            if onBase3 == false {
-                                onBase3 = true
-                            } else {
-                                onBase3 = false
+                            Button("3rd") {
+                                if onBase3 == false {
+                                    onBase3 = true
+                                } else {
+                                    onBase3 = false
+                                }
                             }
                         }
                         VStack {
@@ -346,6 +373,16 @@ struct SoccerClockView: View {
                             out = 0
                         }
                     }
+                    HStack {
+                        Text("At Bat:")
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
+                        
+                        TextField("At Bat", text: $atBat)
+                            .foregroundColor(.orange)
+                            .font(.custom("Open24DisplaySt", size: 20))
+                    }
+                
                 } else {
                     // Basketball
                     VStack {
@@ -420,7 +457,7 @@ struct SoccerClockView: View {
 struct SoccerClockView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)
-        ScoreView(sportSelect: .constant(.soccer), teamSelect: .guest)
+        ScoreView(sportSelect: .constant(.baseball), teamSelect: .guest)
     }
 }
 

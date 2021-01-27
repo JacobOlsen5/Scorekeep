@@ -42,7 +42,7 @@ struct ScoreboardView: View {
                         ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
                     }
                     Spacer()
-                    SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection, clockSeconds: 0, clockMinutes: 0)
+                    SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection, clockSeconds: 0, clockMinutes: 0, clockTenths: 0)
                     Spacer()
                     VStack {
                         ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
