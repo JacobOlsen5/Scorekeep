@@ -121,7 +121,8 @@ struct SoccerClockView: View {
                     VStack {
                         HStack {
                             Text("HALF:")
-                                .foregroundColor(.white)
+                                .foregroundColor(.red)
+                                .font(.custom("scoreboard", size: 20))
                             Text("\(periodNumber)")
                                 .foregroundColor(.yellow)
                                 .font(Font.custom("Open24DisplaySt", size: 20))
@@ -143,7 +144,8 @@ struct SoccerClockView: View {
                 } else  if  sportPicker == .football {
                     HStack {
                         Text("QUARTER:")
-                            .foregroundColor(.white)
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
                         Text("\(periodNumber)")
                             .foregroundColor(.yellow)
                             .font(Font.custom("Open24DisplaySt", size: 20))
@@ -162,7 +164,8 @@ struct SoccerClockView: View {
                     }
                     HStack {
                         Text("Down: ")
-                            .foregroundColor(.white);                   Text("\(down)")
+                            .font(.custom("scoreboard", size: 20))
+                            .foregroundColor(.red);                   Text("\(down)")
                                 .font(Font.custom("Open24DisplaySt", size: 20))
                                 .foregroundColor(.green)
                         Button("Down +1") {
@@ -185,20 +188,24 @@ struct SoccerClockView: View {
                                 Image(systemName: "circle.fill")
                                     .foregroundColor(.red)
                                 Text("Possesion")
-                                    .foregroundColor(.white)
+                                    .font(.custom("scoreboard", size: 20))
+                                    .foregroundColor(.red)
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                             }
                         } else if footballPosession == 2 {
                             HStack {
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                                 Text("Possesion")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.red)
+                                    .font(.custom("scoreboard", size: 20))
                                 Image(systemName: "circle.fill").foregroundColor(.red)
                             }
                         } else {
                             HStack {
                                 Image(systemName: "circle.fill").foregroundColor(.black)
-                                Text("Possesion")  .foregroundColor(.white)
+                                Text("Possesion")
+                                    .foregroundColor(.red)
+                                    .font(.custom("scoreboard", size: 20))
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                             }
                         }
@@ -210,7 +217,8 @@ struct SoccerClockView: View {
                     VStack {
                         HStack {
                             Text("Inning:")
-                                .foregroundColor(.white)
+                                .font(.custom("scoreboard", size: 20))
+                                .foregroundColor(.red)
                             Text("\(periodNumber)")
                                 .foregroundColor(.yellow)
                                 .font(Font.custom("Open24DisplaySt", size: 20))
@@ -269,7 +277,8 @@ struct SoccerClockView: View {
                             VStack {
                                 HStack {
                                     Text("Ball: ")
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.red )
+                                        .font(.custom("scoreboard", size: 20))
                                     Text("\(ball)")
                                         .foregroundColor(.green)
                                         .font(Font.custom("Open24DisplaySt", size: 20))
@@ -289,7 +298,8 @@ struct SoccerClockView: View {
                                 
                                 HStack {
                                     Text("Strike: ")
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.red)
+                                        .font(.custom("scoreboard", size: 20))
                                     Text("\(strike)")
                                         .foregroundColor(.orange)
                                         .font(Font.custom("Open24DisplaySt", size: 20))
@@ -318,7 +328,8 @@ struct SoccerClockView: View {
                         
                         HStack {
                             Text("Out: ")
-                                .foregroundColor(.white)
+                                .foregroundColor(.red)
+                                .font(.custom("scoreboard", size: 20))
                             Text("\(out)")
                                 .foregroundColor(.red)
                                 .font(Font.custom("Open24DisplaySt", size: 20))
@@ -350,21 +361,24 @@ struct SoccerClockView: View {
                             HStack {
                                 Image(systemName: "circle.fill").foregroundColor(.red)
                                 Text("Possesion")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.red)
+                                    .font(.custom("scoreboard", size: 20))
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                             }
                         } else if basketballPosession == 2 {
                             HStack {
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                                 Text("Possesion")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.red)
+                                    .font(.custom("scoreboard", size: 20))
                                 Image(systemName: "circle.fill").foregroundColor(.red)
                             }
                         } else {
                             HStack {
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                                 Text("Possesion")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.red)
+                                    .font(.custom("scoreboard", size: 20))
                                 Image(systemName: "circle.fill").foregroundColor(.black)
                             }
                         }
@@ -372,7 +386,8 @@ struct SoccerClockView: View {
                     
                     HStack {
                         Text("Period:")
-                            .foregroundColor(.white)
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
                         Text("\(periodNumber)")
                             .foregroundColor(.yellow)
                             .font(Font.custom("Open24DisplaySt", size: 20))

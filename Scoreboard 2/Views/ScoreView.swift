@@ -24,6 +24,8 @@ struct ScoreView: View {
     @State var shotsOnGoal: Int = 0
     @State var teamName: String = ""
     @State var guestTeamName: String = ""
+    @State var hits: Int = 0
+    @State var errors: Int = 0
     
     var body: some View {
         ZStack {
@@ -60,7 +62,8 @@ struct ScoreView: View {
                     }
                     HStack {
                         Text("Shots: ")
-                            .foregroundColor(.white)
+                            .foregroundColor(.yellow)
+                            .font(.custom("scoreboard", size: 20))
                         Text("\(shots)")
                             .foregroundColor(.orange)
                             .font(Font.custom("Open24DisplaySt", size: 20))
@@ -73,7 +76,8 @@ struct ScoreView: View {
                     }
                     HStack {
                         Text("Shots On Goal: ")
-                            .foregroundColor(.white)
+                            .font(.custom("scoreboard", size: 20))
+                            .foregroundColor(.yellow)
                         Text("\(shotsOnGoal)")
                             .foregroundColor(.orange)
                             .font(Font.custom("Open24DisplaySt", size: 20))
@@ -90,6 +94,15 @@ struct ScoreView: View {
                         shotsOnGoal = 0
                     }
                 } else if sportSelect == .baseball {
+                    if teamSelect == .home {
+                        TextField("Team Name", text: $teamName)
+                            .foregroundColor(.orange)
+                            .font(.custom("scoreboard", size: 20))
+                    } else if teamSelect == .guest {
+                        TextField("Team Name", text: $guestTeamName)
+                            .foregroundColor(.orange)
+                            .font(.custom("scoreboard", size: 20))
+                    }
                     Button("+1") {
                         score += 1
                         print("\(score)")
@@ -101,6 +114,41 @@ struct ScoreView: View {
                     }
                     Button("Reset") {
                         score = 0
+                    }
+                    // Hits
+                    HStack {
+                        Text("Hits")
+                            .foregroundColor(.yellow)
+                            .font(.custom("scoreboard", size: 20))
+                        Text("\(hits)")
+                            .foregroundColor(.yellow)
+                            .font(.custom("Open24DisplaySt", size: 20))
+                        Button("Hits +1") {
+                            hits += 1
+                        }
+                        Button("Hits -1") {
+                            hits -= 1
+                        }
+                    }
+                    // Errors
+                    HStack {
+                            Text("Errors")
+                                .foregroundColor(.yellow)
+                                .font(.custom("scoreboard", size: 20))
+                            Text("\(errors)")
+                                .foregroundColor(.yellow)
+                                .font(.custom("Open24DisplaySt", size: 20))
+                            Button("Errors +1") {
+                                errors += 1
+                            }
+                            Button("Errors -1") {
+                                errors -= 1
+                            }
+                           
+                        }
+                    Button("Reset") {
+                        hits = 0
+                        errors = 0
                     }
                 } else if sportSelect == .football {
                     
@@ -125,7 +173,8 @@ struct ScoreView: View {
                     }
                     HStack {
                         Text("TOL: ")
-                            .foregroundColor(.white)
+                            .font(.custom("scoreboard", size: 20))
+                            .foregroundColor(.yellow)
                         Text("\( footballTimeouts)")
                             .foregroundColor(.orange)
                             .font(Font.custom("Open24DisplaySt", size: 20))
@@ -157,7 +206,8 @@ struct ScoreView: View {
                     }
                     HStack {
                         Text("TOL: ")
-                            .foregroundColor(.white)
+                            .font(.custom("scoreboard", size: 20))
+                            .foregroundColor(.yellow)
                         Text("\(basketballTimeouts)")
                             .foregroundColor(.orange)
                             .font(Font.custom("Open24DisplaySt", size: 20))
@@ -182,6 +232,6 @@ struct ScoreView: View {
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)
-        ScoreView(sportSelect: .constant(.soccer), teamSelect: .home)
+        ScoreView(sportSelect: .constant(.baseball), teamSelect: .home)
     }
 }
