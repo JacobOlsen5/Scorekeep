@@ -27,7 +27,30 @@ struct ScoreView: View {
     @State var hits: Int = 0
     @State var errors: Int = 0
     @State var bonus: Int = 0
+    @State var fouls: Int = 0
+    @State private var showingAlert = false
+    func evaluateScore(_ score: Int) {
+        if (score <= 0) {
+            self.score = 0
+        }
+    }
     
+    func evaluateShots(_ shots: Int) {
+        if (shots <= 0) {
+            self.shots = 0
+        }
+    }
+    
+    func evaluateTimeouts(_ shots: Int) {
+        if (footballTimeouts <= 0) {
+            self.footballTimeouts = 0
+        }
+    }
+    func evaluateShotsOnGoal(_ shots: Int) {
+        if (shotsOnGoal <= 0) {
+            self.shotsOnGoal = 0
+        }
+    }
     var body: some View {
         ZStack {
             Color.black
@@ -49,17 +72,22 @@ struct ScoreView: View {
                     .font(Font.custom("Open24DisplaySt", size: 120))
                 
                 if sportSelect == .soccer {
-                    Button("+1") {
-                        score += 1
-                        print("\(score)")
-                    }
-                    
-                    Button("-1") {
-                        score -= 1
-                        print(" \(score)")
-                    }
-                    Button("Reset") {
-                        score = 0
+                    HStack {
+                        Button("+1") {
+                            score += 1
+                            print("\(score)")
+                        }
+                        
+                        Button("-1") {
+                            score -= 1
+                            print(" \(score)")
+                            if score <= -1 {
+                                evaluateScore(0)
+                            }
+                        }
+                        Button("Reset") {
+                            score = 0
+                        }
                     }
                     HStack {
                         Text("Shots: ")
@@ -73,6 +101,9 @@ struct ScoreView: View {
                         }
                         Button("-1") {
                             shots -= 1
+                            if shots <= 0 {
+                                evaluateShots(0)
+                            }
                         }
                     }
                     HStack {
@@ -87,6 +118,7 @@ struct ScoreView: View {
                         }
                         Button("-1") {
                             shotsOnGoal -= 1
+                            evaluateShotsOnGoal(0)
                         }
                     }
                     
@@ -103,6 +135,10 @@ struct ScoreView: View {
                     Button("-1") {
                         score -= 1
                         print(" \(score)")
+                        if score <= -1 {
+                            evaluateScore(0)
+                        }
+                        
                     }
                     Button("Reset") {
                         score = 0
@@ -159,6 +195,10 @@ struct ScoreView: View {
                     Button("-1") {
                         score -= 1
                         print("\(score)")
+                        if score <= -1 {
+                            evaluateScore(0)
+                        }
+                        
                     }
                     Button("Reset") {
                         score = 0
@@ -172,6 +212,9 @@ struct ScoreView: View {
                             .font(Font.custom("Open24DisplaySt", size: 20))
                         Button("TOL -1") {
                             footballTimeouts -= 1
+                            if footballTimeouts <= 0 {
+                                evaluateTimeouts(0)
+                            }
                         }
                         Button("TOL Reset") {
                             footballTimeouts = 3
@@ -180,21 +223,27 @@ struct ScoreView: View {
                     
                 } else {
                     // Basketball
-                    Button("+1") {
-                        score += 1
-                    }
-                    Button("+2") {
-                        score += 2
-                    }
-                    Button("+3") {
-                        score += 3
-                    }
-                    Button("-1") {
-                        score -= 1
-                        print("\(score)")
-                    }
-                    Button("Reset") {
-                        score = 0
+                    HStack {
+                        Button("+1") {
+                            score += 1
+                        }
+                        Button("+2") {
+                            score += 2
+                        }
+                        Button("+3") {
+                            score += 3
+                        }
+                        Button("-1") {
+                            score -= 1
+                            print("\(score)")
+                            if score <= -1 {
+                                evaluateScore(0)
+                            }
+                            
+                        }
+                        Button("Reset") {
+                            score = 0
+                        }
                     }
                     HStack {
                         Text("TOL: ")
@@ -210,11 +259,31 @@ struct ScoreView: View {
                             basketballTimeouts = 5
                         }
                     }
+                    HStack {
+                        Text("Fouls:")
+                            .foregroundColor(.yellow)
+                            .font(.custom("scoreboard", size: 20))
+                        Text("\(fouls)")
+                            .foregroundColor(.orange)
+                            .font(Font.custom("Open24DisplaySt", size: 20))
+                    }
+                    HStack {
+                        Button("Fouls +1") {
+                            fouls += 1
+                        }
+                        Button("Fouls -1") {
+                            fouls -= 1
+                    }
+                }
+                    Button("Reset Fouls") {
+                        fouls = 0
+                    }
                 }
             }
         }
     }
 }
+
 
 
 

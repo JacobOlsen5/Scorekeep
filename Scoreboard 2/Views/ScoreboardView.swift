@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct ScoreboardView: View {
     @State var soccerStats = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0)
@@ -14,7 +15,8 @@ struct ScoreboardView: View {
     @State var sportName: String = ""
     @State var teamName: String = ""
     @State var guestTeamName: String = ""
-    
+   // @State var AudioPlayer: AVPlayer!
+
     func setUpScoreboard() {
         setSportName()    }
     func setSportName () {
@@ -43,6 +45,8 @@ struct ScoreboardView: View {
                     }
                     Spacer()
                     SoccerClockView(soccerStats: soccerStats, sportPicker: sportSelection, sportSelection: sportSelection, teamSelection: teamSelection, clockSeconds: 0, clockMinutes: 0, clockTenths: 0)
+                              
+                            
                     Spacer()
                     VStack {
                         ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import AVKit
 
 struct SoccerClockView: View {
     @ObservedObject var soccerStats: Soccer
@@ -18,7 +18,7 @@ struct SoccerClockView: View {
     @State var ball: Int = 0
     @State var strike: Int = 0
     @State var out: Int = 0
-    @State var down: Int = 1
+    @State var down: String = ""
     @State var basketballPosession: Int = 1
     @State var footballPosession: Int = 1
     @State var minutes: Int = 0
@@ -34,8 +34,11 @@ struct SoccerClockView: View {
     @State var atBat: String = ""
     @State var toGo: String = ""
     @State var ballOn: String = ""
-
-
+    @State var homeBonus: Int = 0
+    @State var guestBonus: Int = 0
+    @State var player: AVAudioPlayer!
+    
+    
     fileprivate func beginTimer() {
         if sportPicker == .soccer {
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
@@ -51,22 +54,32 @@ struct SoccerClockView: View {
             }
         } else if sportPicker == .football || sportPicker == .basketball {
             
+            //            Run every 0.1 second to change the numbers in the timer
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
-                
-                if clockTenths == 0 && clockSeconds != 0{
-                    clockTenths = 9
-                    clockSeconds -= 1
-                }
+                clockTenths -= 1
                 if clockSeconds == 0 && clockMinutes != 0 {
                     clockMinutes -= 1
                     clockSeconds = 59
+                    
                 }
+                //                if there are no tenths and still seconds, reset the tenths
+                if clockTenths < 0 && clockSeconds != 0  {
+                    clockTenths = 9
+                    clockSeconds -= 1
+                }
+                
+                
                 if clockMinutes == 0 && clockSeconds == 0 && clockTenths == 0 {
                     timer.invalidate()
-                    return
+                    DispatchQueue.global(qos: .background).async {
+                        let sound = Bundle.main.path(forResource: "buzzer", ofType: "wav")
+                        player = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                        DispatchQueue.main.async {
+                            player.play()
+                        }
+                    }
                 }
-                clockTenths -= 1
-            }
+            } // End timer
         }
     }
     var body: some View {
@@ -122,7 +135,6 @@ struct SoccerClockView: View {
                         }
                     }
                 }
-                
                 if  sportPicker == .soccer {
                     VStack {
                         HStack {
@@ -168,19 +180,7 @@ struct SoccerClockView: View {
                     Button("Reset Quarter") {
                         periodNumber = 1
                     }
-                    HStack {
-                        Text("Down: ")
-                            .font(.custom("scoreboard", size: 20))
-                            .foregroundColor(.red);                   Text("\(down)")
-                                .font(Font.custom("Open24DisplaySt", size: 20))
-                                .foregroundColor(.green)
-                        Button("Down +1") {
-                            down += 1
-                        }
-                        Button("Reset") {
-                            down = 1
-                        }
-                    }
+                    
                     HStack {
                         Button("< >") {
                             if footballPosession == 1 {
@@ -216,15 +216,18 @@ struct SoccerClockView: View {
                             }
                         }
                     }
-                
                     HStack {
-                        Text("To Go:")
+                        TextField("Down", text: $down)
                             .foregroundColor(.red)
                             .font(.custom("scoreboard", size: 20))
-                        
+                           
+                        Text("And")
+                           .foregroundColor(.red)
+                           .font(.custom("scoreboard", size: 20))
                         TextField("To Go", text: $toGo)
-                            .foregroundColor(.orange)
-                            .font(.custom("Open24DisplaySt", size: 20))
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
+                            .frame(width: 150, height: 60, alignment: .trailing)
                     }
                     HStack {
                         Text("Ball On:")
@@ -234,7 +237,7 @@ struct SoccerClockView: View {
                         TextField("Ball On", text: $ballOn)
                             .foregroundColor(.orange)
                             .font(.custom("Open24DisplaySt", size: 20))
-                            
+                        
                     }
                 } else if sportPicker == .baseball {
                     
@@ -307,7 +310,7 @@ struct SoccerClockView: View {
                                         .foregroundColor(.red )
                                         .font(.custom("scoreboard", size: 20))
                                     Text("\(ball)")
-                                        .foregroundColor(.green)
+                                        .foregroundColor(.yellow)
                                         .font(Font.custom("Open24DisplaySt", size: 20))
                                     Button("Ball +1") {
                                         ball += 1
@@ -382,7 +385,7 @@ struct SoccerClockView: View {
                             .foregroundColor(.orange)
                             .font(.custom("Open24DisplaySt", size: 20))
                     }
-                
+                    
                 } else {
                     // Basketball
                     VStack {
@@ -441,24 +444,68 @@ struct SoccerClockView: View {
                     Button("Reset Period") {
                         periodNumber = 1
                     }
+                    HStack {
+                        Button("<") {
+                            homeBonus += 1
+                            print(homeBonus)
+                            if homeBonus == 3 {
+                                homeBonus = 0
+                            }
+                        }
+                        Button(">") {
+                            guestBonus += 1
+                            print(guestBonus)
+                            if guestBonus == 3 {
+                                guestBonus = 0
+                            }
+                        }
+                    }
+                    HStack {
+                        if homeBonus == 1 {
+                            HStack {
+                                Image(systemName: "circle.fill").foregroundColor(.black)
+                                Image(systemName: "circle.fill").foregroundColor(.red)
+                            }
+                        } else if homeBonus == 2 {
+                            HStack {
+                                Image(systemName: "circle.fill").foregroundColor(.red)
+                                Image(systemName: "circle.fill").foregroundColor(.red)
+                            }
+                        } else {
+                            HStack {
+                                Image(systemName: "circle.fill").foregroundColor(.black)
+                                Image(systemName: "circle.fill").foregroundColor(.black)
+                            }
+                        }
+                        Text("Bonus")
+                            .foregroundColor(.red)
+                            .font(.custom("scoreboard", size: 20))
+                        if guestBonus == 1 {
+                            HStack {
+                                Image(systemName: "circle.fill").foregroundColor(.red)
+                                Image(systemName: "circle.fill").foregroundColor(.black)
+                            }
+                        } else if guestBonus == 2 {
+                            HStack {
+                                Image(systemName: "circle.fill").foregroundColor(.red)
+                                Image(systemName: "circle.fill").foregroundColor(.red)
+                            }
+                        } else {
+                            HStack {
+                                Image(systemName: "circle.fill").foregroundColor(.black)
+                                Image(systemName: "circle.fill").foregroundColor(.black)
+                            }
+                        }
+                    }
                 }
             }
         }
+        
     }
 }
-
-
-
-
-
-
-
-
 struct SoccerClockView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)
-        ScoreView(sportSelect: .constant(.baseball), teamSelect: .guest)
+        ScoreView(sportSelect: .constant(. football), teamSelect: .guest)
     }
 }
-
-

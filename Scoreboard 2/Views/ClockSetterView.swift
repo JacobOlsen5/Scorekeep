@@ -30,9 +30,8 @@ struct ClockSetterView: View {
                 ScoreboardView(soccerStats: soccerStats, sportSelection: $sportSelection, teamSelection: $teamSelection)
             }
             HStack {
-                ForEach(0 ..< availableSecondsMinutes.count) {
-                    Text("\(self.availableSecondsMinutes[$0]) min")
-                }
+                    Text("Set The Clock")
+                
             }
             HStack {
                 Picker(selection: $clockMinutes, label: Text("Minutes")) {
