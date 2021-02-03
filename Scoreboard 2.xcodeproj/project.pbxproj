@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7C19587925C07CAD00C875B3 /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C19587825C07CAD00C875B3 /* scoreboard.ttf */; };
+		7C1FB80625CAEDC9000F9BDB /* buzzer2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C1FB80525CAEDC9000F9BDB /* buzzer2.mp3 */; };
 		7C48797A25AFBC04009D5695 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C48797925AFBC04009D5695 /* Helper.swift */; };
 		7C4B25BD25B9DD4E00D684BC /* Open 24 Display St.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4B25BC25B9DD4E00D684BC /* Open 24 Display St.ttf */; };
 		7C894CFE25ADEEDF006E9FFE /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C894CFD25ADEEDF006E9FFE /* ScoreView.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		7C19587825C07CAD00C875B3 /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
+		7C1FB80525CAEDC9000F9BDB /* buzzer2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buzzer2.mp3; sourceTree = "<group>"; };
 		7C48797925AFBC04009D5695 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		7C4B25BC25B9DD4E00D684BC /* Open 24 Display St.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Open 24 Display St.ttf"; sourceTree = "<group>"; };
 		7C894CFD25ADEEDF006E9FFE /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				7C4B25BC25B9DD4E00D684BC /* Open 24 Display St.ttf */,
 				7C19587825C07CAD00C875B3 /* scoreboard.ttf */,
+				7C1FB80525CAEDC9000F9BDB /* buzzer2.mp3 */,
 				7CC8755D25C8611C000B6C5D /* buzzer.wav */,
 				7CCBD4F2258952C70052CE70 /* Scoreboard_2App.swift */,
 				7CDA54E325A6607500266EED /* Views */,
@@ -288,6 +291,7 @@
 				7CCBD4FA258952C80052CE70 /* Preview Assets.xcassets in Resources */,
 				7CC8755E25C8611C000B6C5D /* buzzer.wav in Resources */,
 				7CCBD4F7258952C80052CE70 /* Assets.xcassets in Resources */,
+				7C1FB80625CAEDC9000F9BDB /* buzzer2.mp3 in Resources */,
 				7C19587925C07CAD00C875B3 /* scoreboard.ttf in Resources */,
 				7C4B25BD25B9DD4E00D684BC /* Open 24 Display St.ttf in Resources */,
 			);

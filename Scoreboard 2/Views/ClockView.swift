@@ -57,22 +57,23 @@ struct SoccerClockView: View {
             //            Run every 0.1 second to change the numbers in the timer
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
                 clockTenths -= 1
-                if clockSeconds == 0 && clockMinutes != 0 {
-                    clockMinutes -= 1
-                    clockSeconds = 59
-                    
-                }
-                //                if there are no tenths and still seconds, reset the tenths
-                if clockTenths < 0 && clockSeconds != 0  {
+                if clockTenths < 0 {
                     clockTenths = 9
                     clockSeconds -= 1
+                }
+                if clockSeconds < 0 {
+                    clockSeconds = 59
+                    clockMinutes -= 1
+                }
+                if clockMinutes < 0 {
+                    clockMinutes = 0
                 }
                 
                 
                 if clockMinutes == 0 && clockSeconds == 0 && clockTenths == 0 {
                     timer.invalidate()
                     DispatchQueue.global(qos: .background).async {
-                        let sound = Bundle.main.path(forResource: "buzzer", ofType: "wav")
+                        let sound = Bundle.main.path(forResource: "buzzer2", ofType: "mp3")
                         player = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
                         DispatchQueue.main.async {
                             player.play()
@@ -283,6 +284,11 @@ struct SoccerClockView: View {
                                 } else {
                                     onBase3 = false
                                 }
+                            }
+                            Button("Reset") {
+                                onBase = false
+                                onBase2 = false
+                                onBase3 = false
                             }
                         }
                         VStack {
