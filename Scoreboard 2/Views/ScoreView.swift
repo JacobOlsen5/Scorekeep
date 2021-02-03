@@ -284,13 +284,6 @@ struct ScoreView: View {
     }
 }
 
-
-
-
-
-// Make this view generic and reuse it for both home and guest.
-
-
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)

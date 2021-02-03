@@ -15,8 +15,6 @@ struct ScoreboardView: View {
     @State var sportName: String = ""
     @State var teamName: String = ""
     @State var guestTeamName: String = ""
-   // @State var AudioPlayer: AVPlayer!
-
     func setUpScoreboard() {
         setSportName()    }
     func setSportName () {
@@ -36,9 +34,8 @@ struct ScoreboardView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.purple
+                Color.blue
                     .ignoresSafeArea()
-                
                 HStack {
                     VStack {
                         ScoreView(sportSelect: $sportSelection, teamSelect: teamSelection)
@@ -59,7 +56,6 @@ struct ScoreboardView: View {
         }
     }
 }
-
 struct SoccerScoreboardView_Previews: PreviewProvider {
     static var previews: some View {
         return ScoreboardView(sportSelection: .constant(.baseball), teamSelection: .constant(.home)).previewLayout(.fixed(width: 2688, height: 1242))
