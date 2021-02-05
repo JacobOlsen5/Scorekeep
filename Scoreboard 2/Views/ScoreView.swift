@@ -282,7 +282,7 @@ struct ScoreView: View {
             }
         }
     }
-}
+} 
 
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {

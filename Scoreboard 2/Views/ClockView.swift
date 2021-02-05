@@ -36,7 +36,7 @@ struct SoccerClockView: View {
     @State var ballOn: String = ""
     @State var homeBonus: Int = 0
     @State var guestBonus: Int = 0
-    @State var player: AVAudioPlayer!
+    @State var player: AVAudioPlayer?
     
     
     fileprivate func beginTimer() {
@@ -74,9 +74,15 @@ struct SoccerClockView: View {
                     timer.invalidate()
                     DispatchQueue.global(qos: .background).async {
                         let sound = Bundle.main.path(forResource: "buzzer2", ofType: "mp3")
-                        player = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-                        DispatchQueue.main.async {
-                            player.play()
+                        do {
+                            player = try? AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                            DispatchQueue.main.async {
+                                if let player = player {
+                                    player.play()
+                                }
+                            }
+                        } catch  {
+                            print("Error")
                         }
                     }
                 }
@@ -161,6 +167,11 @@ struct SoccerClockView: View {
                     }
                     
                 } else  if  sportPicker == .football {
+                    Button("Horn") {
+                        if let player = player {
+                            player.play()
+                        }
+                    }
                     HStack {
                         Text("QUARTER:")
                             .foregroundColor(.red)
@@ -169,19 +180,21 @@ struct SoccerClockView: View {
                             .foregroundColor(.yellow)
                             .font(Font.custom("Open24DisplaySt", size: 20))
                     }
+                   
+
                     
                     HStack {
-                        Button("Quarter +1") {
+                        Button("+1") {
                             periodNumber += 1
                         }
-                        Button("Quarter -1") {
+                        Button("-1") {
                             periodNumber -= 1
                         }
+                        
+                        Button("Reset") {
+                            periodNumber = 1
+                        }
                     }
-                    Button("Reset Quarter") {
-                        periodNumber = 1
-                    }
-                    
                     HStack {
                         Button("< >") {
                             if footballPosession == 1 {
@@ -395,7 +408,11 @@ struct SoccerClockView: View {
                 } else {
                     // Basketball
                     VStack {
-                        
+                        Button("Horn") {
+                            if let player = player {
+                                player.play()
+                            }
+                        }
                         Button("< >") {
                             if basketballPosession == 1 {
                                 basketballPosession  = 2
@@ -515,3 +532,4 @@ struct SoccerClockView_Previews: PreviewProvider {
         ScoreView(sportSelect: .constant(. football), teamSelect: .guest)
     }
 }
+
