@@ -34,7 +34,8 @@ struct ScoreboardView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.blue
+                
+                Color.init(red: 23/255, green: 1/255, blue: 119/255)
                     .ignoresSafeArea()
                 HStack {
                     VStack {

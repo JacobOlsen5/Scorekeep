@@ -17,7 +17,9 @@ struct ClockSetterView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var resetMinutes: Int
     @Binding var resetSeconds: Int
+    @Binding var clockTenths: Int
     var availableSecondsMinutes = Array(0...59)
+    var available10ths = Array(0...9)
     
     var body: some View {
         VStack {
@@ -45,6 +47,12 @@ struct ClockSetterView: View {
                         Text("\(self.availableSecondsMinutes[$0]) sec")
                     }
                 }
+                Text(".")
+                Picker(selection: $clockTenths, label: Text("10ths")) {
+                    ForEach(0 ..< available10ths.count) {
+                        Text("\(self.available10ths[$0]) 10ths")
+                    }
+                }
             }
             .frame(maxWidth: .infinity)
         }
@@ -60,7 +68,7 @@ struct ClockSetterView_Previews: PreviewProvider {
     static var previews: some View {
         
         
-        ClockSetterView(soccerStats: Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0), teamSelection: .home, clockMinutes: .constant(0), sportSelection: $sportSelection, clockSeconds: .constant(0), resetMinutes: .constant(0), resetSeconds: .constant(0)
+        ClockSetterView(soccerStats: Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 1, homeShots: 0, guestShots: 0), teamSelection: .home, clockMinutes: .constant(0), sportSelection: $sportSelection, clockSeconds: .constant(0), resetMinutes: .constant(0), resetSeconds: .constant(0), clockTenths: .constant(0)
         )
     }
 }

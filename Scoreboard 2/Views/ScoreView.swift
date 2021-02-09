@@ -29,6 +29,9 @@ struct ScoreView: View {
     @State var bonus: Int = 0
     @State var fouls: Int = 0
     @State private var showingAlert = false
+    @State var challenge: Bool = false
+    @State var yellowCard: Int = 0
+    @State var redCard: Int = 0
     func evaluateScore(_ score: Int) {
         if (score <= 0) {
             self.score = 0
@@ -75,11 +78,15 @@ struct ScoreView: View {
                     HStack {
                         Button("+1") {
                             score += 1
+                            shots += 1
+                            shotsOnGoal += 1
                             print("\(score)")
                         }
                         
                         Button("-1") {
                             score -= 1
+                            shots -= 1
+                            shotsOnGoal -= 1
                             print(" \(score)")
                             if score <= -1 {
                                 evaluateScore(0)
@@ -114,9 +121,11 @@ struct ScoreView: View {
                             .foregroundColor(.orange)
                             .font(Font.custom("Open24DisplaySt", size: 20))
                         Button(" +1") {
+                            shots += 1
                             shotsOnGoal += 1
                         }
                         Button("-1") {
+                            shots -= 1
                             shotsOnGoal -= 1
                             evaluateShotsOnGoal(0)
                         }
@@ -125,6 +134,36 @@ struct ScoreView: View {
                     Button("Reset") {
                         shots = 0
                         shotsOnGoal = 0
+                    }
+                    HStack {
+                        Image(systemName: "rectangle.fill").foregroundColor(.yellow)
+                        Text("\(yellowCard)")
+                            .font(.custom("Open24DisplaySt", size: 20))
+                            .foregroundColor(.yellow)
+                        Button("+1") {
+                            yellowCard += 1
+                        }
+                        Button("-1") {
+                            yellowCard -= 1
+                        }
+                        Button("Reset") {
+                            yellowCard = 0
+                        }
+                    }
+                    HStack {
+                        Image(systemName: "rectangle.fill").foregroundColor(.red)
+                        Text("\(redCard)")
+                            .font(.custom("Open24DisplaySt", size: 20))
+                            .foregroundColor(.red)
+                        Button("+1") {
+                            redCard += 1
+                        }
+                        Button("-1") {
+                            redCard -= 1
+                        }
+                        Button("Reset") {
+                            redCard = 0
+                        }
                     }
                 } else if sportSelect == .baseball {
                     Button("+1") {
@@ -179,26 +218,26 @@ struct ScoreView: View {
                         errors = 0
                     }
                 } else if sportSelect == .football {
-                    
-                    Button("+1") {
-                        score += 1
-                        print("\(score)")
-                    }
-                    Button("+3") {
-                        score += 3
-                        print("\(score)")
-                    }
-                    Button("+6") {
-                        score += 6
-                        print("\(score)")
-                    }
-                    Button("-1") {
-                        score -= 1
-                        print("\(score)")
-                        if score <= -1 {
-                            evaluateScore(0)
+                    HStack {
+                        Button("+1") {
+                            score += 1
+                            print("\(score)")
                         }
-                        
+                        Button("+3") {
+                            score += 3
+                            print("\(score)")
+                        }
+                        Button("+6") {
+                            score += 6
+                            print("\(score)")
+                        }
+                        Button("-1") {
+                            score -= 1
+                            print("\(score)")
+                            if score <= -1 {
+                                evaluateScore(0)
+                            }
+                        }
                     }
                     Button("Reset") {
                         score = 0
@@ -220,7 +259,22 @@ struct ScoreView: View {
                             footballTimeouts = 3
                         }
                     }
-                    
+                    if challenge == true {
+                        Text("Challenge")
+                            .foregroundColor(.red)
+                            .font(Font.custom("scoreboard", size: 20))
+                    } else {
+                        Text("Challenge")
+                            .foregroundColor(.black)
+                            .font(Font.custom("scoreboard", size: 20))
+                    }
+                    Button("Challenge") {
+                        if challenge == true {
+                            challenge = false
+                        } else {
+                            challenge = true
+                        }
+                    }
                 } else {
                     // Basketball
                     HStack {
@@ -268,25 +322,59 @@ struct ScoreView: View {
                             .font(Font.custom("Open24DisplaySt", size: 20))
                     }
                     HStack {
-                        Button("Fouls +1") {
+                        Button("+1") {
                             fouls += 1
                         }
-                        Button("Fouls -1") {
+                        Button("-1") {
                             fouls -= 1
+                        }
+                        Button("Reset") {
+                            fouls = 0
+                        }
+                        
+                        Button("Bonus") {
+                            bonus += 1
+                            if bonus == 3 {
+                                bonus = 0
+                            }
+                        }
                     }
-                }
-                    Button("Reset Fouls") {
-                        fouls = 0
+                    HStack {
+                        if bonus == 1 {
+                            
+                            Text("Bonus")
+                                .foregroundColor(.red)
+                                .font(.custom("scoreboard", size: 20))
+                            
+                            Text("+")
+                                .foregroundColor(.black)
+                                .font(.custom("scoreboard", size: 20))
+                        } else if bonus == 2 {
+                            
+                            Text("Bonus")
+                                .foregroundColor(.red)
+                                .font(.custom("scoreboard", size: 20))
+                            Text("+")
+                                .foregroundColor(.red)
+                                .font(.custom("scoreboard", size: 20))
+                        } else {
+                            Text("Bonus")
+                                .foregroundColor(.black)
+                                .font(.custom("scoreboard", size: 20))
+                            Text("+")
+                                .foregroundColor(.black)
+                                .font(.custom("scoreboard", size: 20))
+                        }
                     }
                 }
             }
         }
     }
-} 
+}
 
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {
         let soccer = Soccer(minutes: 0, seconds: 0, homeScore: 0, guestScore: 0, half: 0, homeShots: 0, guestShots: 0)
-        ScoreView(sportSelect: .constant(.basketball), teamSelect: .home)
+        ScoreView(sportSelect: .constant(.soccer), teamSelect: .home)
     }
 }
