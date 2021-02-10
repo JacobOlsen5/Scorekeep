@@ -18,7 +18,7 @@ struct SoccerClockView: View {
     @State var ball: Int = 0
     @State var strike: Int = 0
     @State var out: Int = 0
-    @State var down: String = ""
+    @State var down: Int = 1
     @State var basketballPosession: Int = 1
     @State var footballPosession: Int = 1
     @State var minutes: Int = 0
@@ -162,9 +162,15 @@ struct SoccerClockView: View {
                         
                         Button("Half +1") {
                             periodNumber += 1
+                            if periodNumber >= 3 {
+                                periodNumber = 1
+                            }
                         }
                         Button("Half -1") {
                             periodNumber -= 1
+                            if periodNumber <= 0 {
+                                periodNumber = 1
+                            }
                         }
                         
                         Button("Reset Half") {
@@ -192,9 +198,15 @@ struct SoccerClockView: View {
                     HStack {
                         Button("+1") {
                             periodNumber += 1
+                            if periodNumber >= 5 {
+                                periodNumber = 1
+                            }
                         }
                         Button("-1") {
                             periodNumber -= 1
+                            if periodNumber <= 0 {
+                                periodNumber = 1
+                            }
                         }
                         
                         Button("Reset") {
@@ -237,17 +249,35 @@ struct SoccerClockView: View {
                         }
                     }
                     HStack {
-                        TextField("Down", text: $down)
+                        Text("Down")
                             .foregroundColor(.red)
                             .font(.custom("scoreboard", size: 20))
-                           
-                        Text("And")
+                        Text("\(down)")
+                            .foregroundColor(.orange)
+                            .font(.custom("Open24DisplaySt", size: 20))
+                        Button("+1") {
+                            down += 1
+                            if down >= 5 {
+                                down = 1
+                            }
+                        }
+                        Button("Reset") {
+                            down = 1
+                        }
+                    }
+                    HStack {
+                        Text("To Go")
                            .foregroundColor(.red)
                            .font(.custom("scoreboard", size: 20))
-                        TextField("To Go", text: $toGo)
-                            .foregroundColor(.red)
+                        TextField("TG", text: $toGo)
+                            .foregroundColor(.yellow)
                             .font(.custom("scoreboard", size: 20))
-                            .frame(width: 150, height: 60, alignment: .trailing)
+                        Text("On")
+                           .foregroundColor(.red)
+                           .font(.custom("scoreboard", size: 20))
+                            TextField("On", text: $ballOn)
+                                .foregroundColor(.yellow)
+                                .font(.custom("scoreboard", size: 20))
                     }
                 } else if sportPicker == .baseball {
                     
@@ -267,6 +297,9 @@ struct SoccerClockView: View {
                         }
                         Button("Inning -1") {
                             periodNumber -= 1
+                            if periodNumber <= 0 {
+                                periodNumber = 1
+                            }
                         }
                         
                         Button("Reset Inning") {
@@ -455,9 +488,15 @@ struct SoccerClockView: View {
                     HStack {
                         Button("Period +1") {
                             periodNumber += 1
+                            if periodNumber >= 5 {
+                                periodNumber = 1
+                            }
                         }
                         Button("Period -1") {
                             periodNumber -= 1
+                            if periodNumber <= 0 {
+                                periodNumber = 1
+                            }
                         }
                     }
                     Button("Reset Period") {

@@ -127,13 +127,19 @@ struct ScoreView: View {
                         Button("-1") {
                             shots -= 1
                             shotsOnGoal -= 1
-                            evaluateShotsOnGoal(0)
+                            if shotsOnGoal <= 0 {
+                                evaluateShotsOnGoal(0)
+                            }
+                            if shots <= 0 {
+                                evaluateShots(0)
+                            }
                         }
                     }
-                    
-                    Button("Reset") {
-                        shots = 0
-                        shotsOnGoal = 0
+                
+                
+                Button("Reset") {
+                    shots = 0
+                    shotsOnGoal = 0
                     }
                     HStack {
                         Image(systemName: "rectangle.fill").foregroundColor(.yellow)
@@ -145,6 +151,9 @@ struct ScoreView: View {
                         }
                         Button("-1") {
                             yellowCard -= 1
+                            if yellowCard <= 0 {
+                                yellowCard = 0
+                            }
                         }
                         Button("Reset") {
                             yellowCard = 0
@@ -160,11 +169,15 @@ struct ScoreView: View {
                         }
                         Button("-1") {
                             redCard -= 1
+                            if redCard <= 0 {
+                                redCard = 0
+                            }
                         }
                         Button("Reset") {
                             redCard = 0
                         }
                     }
+                
                 } else if sportSelect == .baseball {
                     HStack {
                     Button("+1") {
@@ -197,6 +210,9 @@ struct ScoreView: View {
                         }
                         Button("Hits -1") {
                             hits -= 1
+                            if hits <= 0 {
+                                hits = 0
+                            }
                         }
                     }
                     // Errors
@@ -212,6 +228,9 @@ struct ScoreView: View {
                         }
                         Button("Errors -1") {
                             errors -= 1
+                            if errors <= 0 {
+                                errors = 0
+                            }
                         }
                         
                     }
@@ -310,7 +329,9 @@ struct ScoreView: View {
                             .font(Font.custom("Open24DisplaySt", size: 20))
                         Button("TOL -1") {
                             basketballTimeouts -= 1
-                        }
+                            if basketballTimeouts <= 0 {
+                                basketballTimeouts = 0
+                            }                        }
                         Button("TOL Reset") {
                             basketballTimeouts = 5
                         }
@@ -329,6 +350,9 @@ struct ScoreView: View {
                         }
                         Button("-1") {
                             fouls -= 1
+                            if fouls <= 0 {
+                                fouls = 0
+                            }
                         }
                         Button("Reset") {
                             fouls = 0
