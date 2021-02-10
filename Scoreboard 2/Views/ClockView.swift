@@ -102,12 +102,14 @@ struct SoccerClockView: View {
                             .frame(width: 118, height: 110, alignment: .trailing)
                             .foregroundColor(.red)
                             .frame(maxWidth: .infinity)
-                        if clockMinutes == 0 && clockSeconds == 0 && clockTenths == 0{
-                            Color.red
-                                .frame(height: 10)
-                        } else {
-                            Color.black
-                                .frame(height: 10)
+                        if sportPicker == .basketball || sportPicker == .football {
+                            if clockMinutes == 0 && clockSeconds == 0 && clockTenths == 0{
+                                Color.red
+                                    .frame(height: 10)
+                            } else {
+                                Color.black
+                                    .frame(height: 10)
+                            }
                         }
                         HStack {
                             Button("Set") {

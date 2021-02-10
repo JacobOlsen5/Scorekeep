@@ -166,6 +166,7 @@ struct ScoreView: View {
                         }
                     }
                 } else if sportSelect == .baseball {
+                    HStack {
                     Button("+1") {
                         score += 1
                         print("\(score)")
@@ -179,8 +180,9 @@ struct ScoreView: View {
                         }
                         
                     }
-                    Button("Reset") {
-                        score = 0
+                        Button("Reset") {
+                            score = 0
+                        }
                     }
                     // Hits
                     HStack {
