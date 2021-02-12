@@ -28,7 +28,7 @@ struct ContentView: View {
                         
                     }
                 }
-                Spacer(minLength: 170)
+                Spacer()
                 NavigationLink(destination: ScoreboardView(sportSelection: .constant(.football), teamSelection: $teamSelcection)) {
                     VStack {
                         Image("football")
@@ -38,7 +38,7 @@ struct ContentView: View {
                         Text("Football")
                     }
                 }
-                Spacer(minLength: 170)
+                Spacer()
                 NavigationLink(destination: ScoreboardView(sportSelection:.constant(.basketball), teamSelection: $teamSelcection)) {
                     VStack {
                         Image("basketball")
