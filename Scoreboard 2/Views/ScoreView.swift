@@ -91,6 +91,12 @@ struct ScoreView: View {
                             if score <= -1 {
                                 evaluateScore(0)
                             }
+                            if shots <= 0 {
+                                evaluateShots(0)
+                            }
+                            if shotsOnGoal <= 0 {
+                                evaluateShotsOnGoal(0)
+                            }
                         }
                         Button("Reset") {
                             score = 0

@@ -13,30 +13,60 @@ import SwiftUI
 
 struct ContentView: View {
     @Binding var teamSelcection: Team
+    
     var body: some View {
         NavigationView {
-            VStack {
+            HStack {
                 NavigationLink(destination: ScoreboardView(sportSelection: .constant(.soccer), teamSelection: $teamSelcection)) {
-                    Text("Soccer")
-                }.buttonStyle(PlainButtonStyle())
+                    VStack {
+                        Image("soccer_ball")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100)
+                        Text("Soccer")
+                           
+                        
+                    }
+                }
+                Spacer(minLength: 170)
                 NavigationLink(destination: ScoreboardView(sportSelection: .constant(.football), teamSelection: $teamSelcection)) {
-                    Text("Football")
-                }.buttonStyle(PlainButtonStyle())
+                    VStack {
+                        Image("football")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100)
+                        Text("Football")
+                    }
+                }
+                Spacer(minLength: 170)
                 NavigationLink(destination: ScoreboardView(sportSelection:.constant(.basketball), teamSelection: $teamSelcection)) {
-                    Text("Basketball")
-                }.buttonStyle(PlainButtonStyle())
+                    VStack {
+                        Image("basketball")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100)
+                        Text("Basketball")
+                    }
+                }
+                Spacer()
                 NavigationLink(destination: ScoreboardView(sportSelection: .constant(.baseball), teamSelection: $teamSelcection)) {
-                    Text("Baseball")
-                }.buttonStyle(PlainButtonStyle())
+                    VStack {
+                        Image("baseball")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100)
+                        Text("Baseball")
+                    }
+                }
+                .navigationBarTitle("Welcome to Scorekeep", displayMode: .inline)
             }
         }
-        
-    
     }
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(teamSelcection: .constant(.home))
+        
     }
 }
 
